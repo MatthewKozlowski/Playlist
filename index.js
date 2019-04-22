@@ -4,18 +4,12 @@ const clientId = '8f49b38a'
 const searchUrl = 'https://api.jamendo.com/v3.0/tracks/'
 let maxResults = 10;
 
-function toggleAudio(url){
-    console.log("playAudio ran.")
-    let song = new Audio(url);
-    song.play();
-}
-
-function watchAudio(){
-    console.log("watchAudio ran.")
-    $('button').on('click', function(){
-        let url = $(this).val();
-        console.log(url);
-        toggleAudio(url);
+function addToPlaylist(){
+    $('#results').on('click', 'button', function(){
+        $(this).html('<button type="button" class="removeFromPlaylist">Remove from Playlist</button>');
+        let newSong = $(this).parent();
+        $(this).parent().remove();
+        $('#playlist').append(newSong);
     })
 }
 
@@ -27,19 +21,30 @@ function displayResults(responseJson){
         for(let i = 0; i < responseJson.results.length; i++){
             $('#songResults').append(`
             <li>
+            <span class="songContainer">
             <p>${responseJson.results[i].name}</p>
-            <button type="button" value="${responseJson.results[i].audio}">Play</button><img class="albumArt" src="${responseJson.results[i].album_image}">
+            <audio controls>
+            <source src="${responseJson.results[i].audio}" type="audio/mpeg">
+            </audio controls>
+            </span>
+            <button type="button" class="addToPlaylist">Add to Playlist</button>
             </li>
             `)
         }   
     }else{
-        for(let i = 0; i < maxResults; i++){
+        for(let i = 0; i < responseJson.results.length; i++){
             $('#songResults').append(`
             <li>
-            <img src="${responseJson.results[i].album_image}">
+            <span class="songContainer">
             <p>${responseJson.results[i].name}</p>
+            <audio controls>
+            <source src="${responseJson.results[i].audio}" type="audio/mpeg">
+            </audio controls>
+            </span>
+            <button type="button" class="addToPlaylist">Add to Playlist</button>
+            </li>
             `)
-        }
+        }   
     }
     watchAudio();
 }
@@ -78,5 +83,6 @@ function watchForm(){
 $(function(){
     console.log('Playlist Creator Loaded.');
     watchForm();
+    addToPlaylist();
   })
   

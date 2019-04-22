@@ -1,0 +1,13 @@
+#songsContainer {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
+
+#results {
+    width: 400px;
+}
+
+#playlistContainer {
+    width: 400px;
+}
