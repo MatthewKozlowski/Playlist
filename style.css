@@ -1,3 +1,20 @@
+.hidden {
+    visibility: hidden;
+}
+
+h1 {
+    text-align: center;
+}
+
+h2 {
+    text-align: center;
+}
+
+#js-form {
+    display: flex;
+    justify-content: center;
+}
+
 #songsContainer {
     display: flex;
     flex-direction: row;
@@ -6,8 +23,10 @@
 
 #results {
     width: 400px;
+    text-align: center;
 }
 
 #playlistContainer {
     width: 400px;
+    text-align: center;
 }

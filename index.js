@@ -4,18 +4,36 @@ const clientId = '8f49b38a'
 const searchUrl = 'https://api.jamendo.com/v3.0/tracks/'
 let maxResults = 10;
 
-function addToPlaylist(){
-    $('#results').on('click', 'button', function(){
-        $(this).html('<button type="button" class="removeFromPlaylist">Remove from Playlist</button>');
-        let newSong = $(this).parent();
+function removeSearchResults(){
+    $('#results').on('click', '#clearSearch', function(){
+        $('#songResults').remove();
+        $('#results').addClass('hidden');
+    })
+}
+
+function removeFromPlaylist(){
+    $('#playlist').on('click', '.removeFromPlaylist', function(){
+        $(this).removeClass('removeFromPlaylist').html('Add to Playlist').addClass('addToPlaylist');
+        let removedSong = $(this).parent();
         $(this).parent().remove();
-        $('#playlist').append(newSong);
+        $('#songResults').prepend(removedSong);
+    })
+}
+
+function addToPlaylist(){
+    $('#results').on('click', '.addToPlaylist', function(){
+        $(this).removeClass('addToPlaylist').html('Remove from Playlist').addClass('removeFromPlaylist');
+        let addedSong = $(this).parent();
+        $(this).parent().remove();
+        $('#playlist').append(addedSong);
     })
 }
 
 function displayResults(responseJson){
     console.log(responseJson);
     $('#songResults').remove();
+    $('#results').removeClass('hidden');
+    $('#playlistContainer').removeClass('hidden');
     $('#results-list').append('<form><ol id="songResults"></ol></form>');
     if(maxResults > responseJson.results.length){
         for(let i = 0; i < responseJson.results.length; i++){
@@ -84,5 +102,7 @@ $(function(){
     console.log('Playlist Creator Loaded.');
     watchForm();
     addToPlaylist();
+    removeFromPlaylist();
+    removeSearchResults();
   })
   
