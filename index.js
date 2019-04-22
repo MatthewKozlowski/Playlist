@@ -4,7 +4,7 @@ const clientId = '8f49b38a'
 const searchUrl = 'https://api.jamendo.com/v3.0/tracks/'
 let maxResults = 10;
 
-function playAudio(url){
+function toggleAudio(url){
     console.log("playAudio ran.")
     let song = new Audio(url);
     song.play();
@@ -12,23 +12,23 @@ function playAudio(url){
 
 function watchAudio(){
     console.log("watchAudio ran.")
-    $('.albumArt').on('click', function(event){
-        let url = $(event).parent().val();
+    $('button').on('click', function(){
+        let url = $(this).val();
         console.log(url);
-        playAudio(url);
+        toggleAudio(url);
     })
 }
 
 function displayResults(responseJson){
     console.log(responseJson);
     $('#songResults').remove();
-    $('#results-list').append('<ol id="songResults"></ol>');
+    $('#results-list').append('<form><ol id="songResults"></ol></form>');
     if(maxResults > responseJson.results.length){
         for(let i = 0; i < responseJson.results.length; i++){
             $('#songResults').append(`
             <li>
             <p>${responseJson.results[i].name}</p>
-            <input type="button" value="${responseJson.results[i].audio}"><img class="albumArt" src="${responseJson.results[i].album_image}">
+            <button type="button" value="${responseJson.results[i].audio}">Play</button><img class="albumArt" src="${responseJson.results[i].album_image}">
             </li>
             `)
         }   
