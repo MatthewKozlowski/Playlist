@@ -5,13 +5,33 @@ const searchUrl = 'https://api.jamendo.com/v3.0/tracks/'
 let maxResults = 10;
 
 function runPlaylist(){
+    let current = 0;
     let audio = $('#playlistAudio');
-
+    let playlist = $('#finalPlaylistContainer');
+    let tracks = playlist.find('source');
+    let length = tracks.length - 1; 
+    audio[0].volume = .10;
+    audio[0].play();
+    playlist.on('click', 'p', function(event){
+        let link = $(this);
+        current = link.parent().index();
+        run(link, audio[0]);
+    });
+    audio[0].addEventListener('ended', function(event){
+        current++;
+        if(current === length) {
+            current = 0;
+            link = playlist.find('source')[0];
+        }else{
+            link = playlist.find('source')[current];
+        }
+        run($(link),audio[0]);
+    })
 }
 
 function finializedPlaylist(){
     $('#finalPlaylist').on('click', function(){
-        let playlist = $('#playlist').find('li');
+        let playlist = $('#playlist').find('p, source');
         $('#js-form').remove();
         $('#songsContainer').remove();
         $('.container').append(`<h2 id="songTitle">Now Playing: </h2><audio id="playlistAudio" preload="auto" tabindex="0" controls=""></audio><ol id="finalPlaylistContainer"></ol>`);
