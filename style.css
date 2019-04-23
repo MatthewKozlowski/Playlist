@@ -31,3 +31,17 @@ h2 {
     width: 400px;
     text-align: center;
 }
+
+#playlistAudio {
+    display: flex;
+    justify-content: center;
+    margin: auto;
+}
+
+#finalPlaylistContainer {
+    margin: auto;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    width: 400px;
+}

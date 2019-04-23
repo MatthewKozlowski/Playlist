@@ -4,14 +4,24 @@ const clientId = '8f49b38a'
 const searchUrl = 'https://api.jamendo.com/v3.0/tracks/'
 let maxResults = 10;
 
+function runPlaylist(){
+    let audio = $('#playlistAudio');
+
+}
+
 function finializedPlaylist(){
     $('#finalPlaylist').on('click', function(){
-       let playlist = $('#playlist').find('.songContainer');
-       $('#js-form').remove();
-       $('#songsContainer').remove();
-   //$('.container').append(`<audio preload="auto" tabindex="0" controls=""></audio>`);
-       $('.container').append(playlist);
-       console.log(playlist);
+        let playlist = $('#playlist').find('li');
+        $('#js-form').remove();
+        $('#songsContainer').remove();
+        $('.container').append(`<h2 id="songTitle">Now Playing: </h2><audio id="playlistAudio" preload="auto" tabindex="0" controls=""></audio><ol id="finalPlaylistContainer"></ol>`);
+        $('#finalPlaylistContainer').append(playlist)
+        $('#finalPlaylistContainer').find('source')
+        let track0Title = $('#finalPlaylistContainer').find('p').first().clone();
+        let track0 = $('#finalPlaylistContainer').find('source').first().clone();
+        $('#songTitle').append(track0Title);
+        $('#playlistAudio').append(track0);
+        console.log(playlist, track0);
     })
 }
 
@@ -51,7 +61,7 @@ function displayResults(responseJson){
     $('#songResults').remove();
     $('#results').removeClass('hidden');
     $('#playlistContainer').removeClass('hidden');
-    $('#results-list').append('<form><ol id="songResults"></ol></form>');
+    $('#results-list').append('<ol id="songResults"></ol>');
     if(maxResults > responseJson.results.length){
         for(let i = 0; i < responseJson.results.length; i++){
             $('#songResults').append(`
@@ -123,5 +133,6 @@ $(function(){
     removeSearchResults();
     returnToLandingPage();
     finializedPlaylist();
+    runPlaylist();
   })
   
