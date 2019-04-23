@@ -4,6 +4,23 @@ const clientId = '8f49b38a'
 const searchUrl = 'https://api.jamendo.com/v3.0/tracks/'
 let maxResults = 10;
 
+function finializedPlaylist(){
+    $('#finalPlaylist').on('click', function(){
+       let playlist = $('#playlist').find('.songContainer');
+       $('#js-form').remove();
+       $('#songsContainer').remove();
+   //$('.container').append(`<audio preload="auto" tabindex="0" controls=""></audio>`);
+       $('.container').append(playlist);
+       console.log(playlist);
+    })
+}
+
+function returnToLandingPage(){
+    $('#title').on('click', function(){
+        location.reload();
+    })
+}
+
 function removeSearchResults(){
     $('#results').on('click', '#clearSearch', function(){
         $('#songResults').remove();
@@ -104,5 +121,7 @@ $(function(){
     addToPlaylist();
     removeFromPlaylist();
     removeSearchResults();
+    returnToLandingPage();
+    finializedPlaylist();
   })
   

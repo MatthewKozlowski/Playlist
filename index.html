@@ -8,8 +8,8 @@
     <script src="https://code.jquery.com/jquery-3.3.1.js" integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60=" crossorigin="anonymous"></script>
 </head>
 <body>
-    <h1>Playlist Creator</h1>
-    <div class="Container">
+    <h1 id="title">Playlist Creator</h1>
+    <div class="container">
     
         <form id="js-form">
             <label for="search-term">Search for a track to add!</label>
@@ -24,12 +24,13 @@
            
             <section id="results" class="hidden">
                 <h2>Search results</h2>
-                <h3><button type="button" id="clearSearch">Clear Results</button></h3>
+                <button type="button" id="clearSearch">Clear Results</button>
                 <ul id="results-list"></ul>
             </section>
 
             <section id="playlistContainer" class="hidden">
                 <h2>Your Playlist</h2>
+                <button type="button" id="finalPlaylist">Finalize Playlist</button>
                 <ol id="playlist"></ol>
             </section>
         </div>  

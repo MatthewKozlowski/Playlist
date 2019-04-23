@@ -2,8 +2,9 @@
     visibility: hidden;
 }
 
-h1 {
+#title {
     text-align: center;
+    cursor: pointer;
 }
 
 h2 {
