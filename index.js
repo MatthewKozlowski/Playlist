@@ -16,29 +16,27 @@ function finializedPlaylist(){
         $('#finalPlaylistContainer').append(playlist)
         let trackTitles = $('#finalPlaylistContainer').find('p').clone().toArray();
         let track = $('#finalPlaylistContainer').find('source').clone().toArray();
-        $('#finalPlaylistContainer').find('source').remove();
+        //$('#finalPlaylistContainer').find('source').remove();
         $('#finalPlaylistContainer').find('p').before(`<button type="button">Play</button>`);
         console.log(track);
         $('#songTitle').append(trackTitles[0]);
         $('#playlistAudio').append(track[0]);
         $('#finalPlaylistContainer p:first').addClass('active');
         runPlaylist(trackTitles, track);
-        chooseSong(trackTitles, track);
+        chooseSong();
     })
 }
 
-function chooseSong(trackTitles, track){
+function chooseSong(){
     $('#finalPlaylistContainer').on('click', 'button', function(){
-        let chosenSong = $(this).next().text();
-        console.log(chosenSong);
-        console.log(trackTitles);
-        let index = trackTitles.findIndex(function(element){
-            let newElement = element;
-            newElement.text();
-            return newElement === chosenSong;
-        });
-        console.log(index);
+        let chosenSongTitle = $(this).next().clone();
+        let chosenSongTrack = $(this).next().next().clone();
+        console.log(chosenSongTitle);
+        console.log(chosenSongTrack);
+        $('#songTitle').children().remove().append(chosenSongTitle);
+        $('#playlistAudio').children().remove().append(chosenSongTrack);
     })
+    runPlaylist();
 }
 
 function runPlaylist(trackTitles, track){
@@ -49,7 +47,7 @@ function runPlaylist(trackTitles, track){
     audio.addEventListener('ended', function(event){
         current++;
         if(current < track.length){
-            $('.active').removeClass('active').next().addClass('active');
+            $('.active').removeClass('active').next().next().addClass('active');
             $('#playlistAudio').children().remove()
             $('#playlistAudio').append(track[current]);
             $('#songTitle').children().remove();
