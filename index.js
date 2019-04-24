@@ -4,44 +4,69 @@ const clientId = '8f49b38a'
 const searchUrl = 'https://api.jamendo.com/v3.0/tracks/'
 let maxResults = 10;
 
-function runPlaylist(){
-    let current = 0;
-    let audio = $('#playlistAudio');
-    let playlist = $('#finalPlaylistContainer');
-    let tracks = playlist.find('source');
-    let length = tracks.length - 1; 
-    audio[0].volume = .10;
-    audio[0].play();
-    playlist.on('click', 'p', function(event){
-        let link = $(this);
-        current = link.parent().index();
-        run(link, audio[0]);
-    });
-    audio[0].addEventListener('ended', function(event){
-        current++;
-        if(current === length) {
-            current = 0;
-            link = playlist.find('source')[0];
-        }else{
-            link = playlist.find('source')[current];
-        }
-        run($(link),audio[0]);
-    })
-}
+
+
 
 function finializedPlaylist(){
     $('#finalPlaylist').on('click', function(){
         let playlist = $('#playlist').find('p, source');
         $('#js-form').remove();
         $('#songsContainer').remove();
-        $('.container').append(`<h2 id="songTitle">Now Playing: </h2><audio id="playlistAudio" preload="auto" tabindex="0" controls=""></audio><ol id="finalPlaylistContainer"></ol>`);
+        $('.container').append(`<h2 id="songTitle">Now Playing: </h2><audio id="playlistAudio" tabindex="0" controls></audio><ol id="finalPlaylistContainer"></ol>`);
         $('#finalPlaylistContainer').append(playlist)
-        $('#finalPlaylistContainer').find('source')
-        let track0Title = $('#finalPlaylistContainer').find('p').first().clone();
-        let track0 = $('#finalPlaylistContainer').find('source').first().clone();
-        $('#songTitle').append(track0Title);
-        $('#playlistAudio').append(track0);
-        console.log(playlist, track0);
+        let trackTitles = $('#finalPlaylistContainer').find('p').clone().toArray();
+        let track = $('#finalPlaylistContainer').find('source').clone().toArray();
+        $('#finalPlaylistContainer').find('source').remove();
+        $('#finalPlaylistContainer').find('p').before(`<button type="button">Play</button>`);
+        console.log(track);
+        $('#songTitle').append(trackTitles[0]);
+        $('#playlistAudio').append(track[0]);
+        $('#finalPlaylistContainer p:first').addClass('active');
+        runPlaylist(trackTitles, track);
+        chooseSong(trackTitles, track);
+    })
+}
+
+function chooseSong(trackTitles, track){
+    $('#finalPlaylistContainer').on('click', 'button', function(){
+        let chosenSong = $(this).next().text();
+        console.log(chosenSong);
+        console.log(trackTitles);
+        let index = trackTitles.findIndex(function(element){
+            let newElement = element;
+            newElement.text();
+            return newElement === chosenSong;
+        });
+        console.log(index);
+    })
+}
+
+function runPlaylist(trackTitles, track){
+    let current = 0;
+    let audio = document.getElementById('playlistAudio');
+    audio.volume =.10;
+    audio.play();
+    audio.addEventListener('ended', function(event){
+        current++;
+        if(current < track.length){
+            $('.active').removeClass('active').next().addClass('active');
+            $('#playlistAudio').children().remove()
+            $('#playlistAudio').append(track[current]);
+            $('#songTitle').children().remove();
+            $('#songTitle').append(trackTitles[current]);
+            audio.load();
+            audio.play();
+        }else{
+            current = 0;
+            $('.active').removeClass('active');
+            $('#finalPlaylistContainer p:first').addClass('active');
+            $('#playlistAudio').children().remove()
+            $('#playlistAudio').append(track[current]);
+            $('#songTitle').children().remove();
+            $('#songTitle').append(trackTitles[current]);
+            audio.load();
+            audio.play();
+        }
     })
 }
 
@@ -111,7 +136,7 @@ function displayResults(responseJson){
             `)
         }   
     }
-    watchAudio();
+
 }
 
 function formatQueryParams(params) {
@@ -153,6 +178,5 @@ $(function(){
     removeSearchResults();
     returnToLandingPage();
     finializedPlaylist();
-    runPlaylist();
   })
   
