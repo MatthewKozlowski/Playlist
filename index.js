@@ -53,7 +53,9 @@ function runPlaylist(trackTitles, track){
             $('#songTitle').children().remove();
             $('#songTitle').append(trackTitles[current]);
             audio.load();
+            audio.currentTime = (0)
             audio.play();
+            console.log(current)
         }else{
             current = 0;
             $('.active').removeClass('active');
@@ -64,6 +66,7 @@ function runPlaylist(trackTitles, track){
             $('#songTitle').append(trackTitles[current]);
             audio.load();
             audio.play();
+            console.log(current + " Replay")
         }
     })
 }
