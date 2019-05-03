@@ -21,52 +21,64 @@ function finializedPlaylist(){
         console.log(track);
         $('#songTitle').append(trackTitles[0]);
         $('#playlistAudio').append(track[0]);
+        $('#finalPlaylistContainer p').addClass('song');
         $('#finalPlaylistContainer p:first').addClass('active');
-        runPlaylist(trackTitles, track);
-        chooseSong();
+        let current = 0;
+        runPlaylist(trackTitles, track, current);
+        chooseSong(current);
     })
 }
 
-function chooseSong(){
+function chooseSong(trackTitles, current){
     $('#finalPlaylistContainer').on('click', 'button', function(){
+        let audio = document.getElementById('playlistAudio');
         let chosenSongTitle = $(this).next().clone();
         let chosenSongTrack = $(this).next().next().clone();
+        audio.pause();
+        audio.load();
         console.log(chosenSongTitle);
         console.log(chosenSongTrack);
-        $('#songTitle').children().remove().append(chosenSongTitle);
-        $('#playlistAudio').children().remove().append(chosenSongTrack);
+        $('.active').removeClass('active');
+        $(this).next().addClass('active');
+        $('#songTitle').children().replaceWith(chosenSongTitle);
+        $('#playlistAudio').children().replaceWith(chosenSongTrack);
+        audio.play();
+        let songArray = $('#finalPlaylistContainer').find('p').toArray();
+        current = songArray.indexOf(chosenSongTitle);
+        console.log("Choose song "+current);
+        console.log("Array example "+trackTitles[1]);
+        audio.addEventListener('ended', function(event){
+            runPlaylist(current);
+        })    
     })
-    runPlaylist();
 }
 
-function runPlaylist(trackTitles, track){
-    let current = 0;
+function runPlaylist(trackTitles, track, current){
+    console.log("Initial Current "+current);
     let audio = document.getElementById('playlistAudio');
     audio.volume =.10;
-    audio.play();
+   //audio.play();
     audio.addEventListener('ended', function(event){
         current++;
-        if(current < track.length){
-            $('.active').removeClass('active').next().next().addClass('active');
-            $('#playlistAudio').children().remove()
-            $('#playlistAudio').append(track[current]);
-            $('#songTitle').children().remove();
-            $('#songTitle').append(trackTitles[current]);
-            audio.load();
-            audio.currentTime = (0)
-            audio.play();
-            console.log(current)
-        }else{
+        console.log("Ended Current "+current)
+        if(current === track.length){
             current = 0;
             $('.active').removeClass('active');
             $('#finalPlaylistContainer p:first').addClass('active');
+            $('#playlistAudio').children().replaceWith(track[current]);
+            $('#songTitle').children().replaceWith(trackTitles[current]);
+            audio.load();
+            audio.play();
+            console.log(current + " Replay")
+        }else{
+            $('.active').removeClass('active').next().next().next().addClass('active');
             $('#playlistAudio').children().remove()
             $('#playlistAudio').append(track[current]);
             $('#songTitle').children().remove();
             $('#songTitle').append(trackTitles[current]);
             audio.load();
             audio.play();
-            console.log(current + " Replay")
+            console.log("Else current "+current)
         }
     })
 }
