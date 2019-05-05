@@ -6,31 +6,36 @@ let maxResults = 10;
 
 
 
-
 function finializedPlaylist(){
     $('#finalPlaylist').on('click', function(){
-        let playlist = $('#playlist').find('p, source');
-        $('#js-form').remove();
-        $('#songsContainer').remove();
-        $('.container').append(`<h2 id="songTitle">Now Playing: </h2><audio id="playlistAudio" tabindex="0" controls></audio><ol id="finalPlaylistContainer"></ol>`);
-        $('#finalPlaylistContainer').append(playlist)
-        let trackTitles = $('#finalPlaylistContainer').find('p').clone().toArray();
-        let track = $('#finalPlaylistContainer').find('source').clone().toArray();
-        //$('#finalPlaylistContainer').find('source').remove();
-        $('#finalPlaylistContainer').find('p').before(`<button type="button">Play</button>`);
-        console.log(track);
-        $('#songTitle').append(trackTitles[0]);
-        $('#playlistAudio').append(track[0]);
-        $('#finalPlaylistContainer p').addClass('song');
-        $('#finalPlaylistContainer p:first').addClass('active');
-        let current = 0;
-        runPlaylist(trackTitles, track, current);
-        chooseSong(current);
+        let count = $('#playlist').children().length;
+        if(count >= 1){
+            let playlist = $('#playlist').find('p, source');
+            $('#js-form').remove();
+            $('#songsContainer').remove();
+            $('.container').append(`<h2 id="songTitle">Now Playing: </h2><audio id="playlistAudio" tabindex="0" controls></audio><ol id="finalPlaylistContainer"></ol>`);
+            $('#finalPlaylistContainer').append(playlist)
+            let trackTitles = $('#finalPlaylistContainer').find('p').clone().toArray();
+            let track = $('#finalPlaylistContainer').find('source').clone().toArray();
+            $('#finalPlaylistContainer').find('p').before(`<button class="play" type="button">Play</button>`);
+            console.log(track);
+            $('#songTitle').append(trackTitles[0]);
+            $('#playlistAudio').append(track[0]);
+            $('#finalPlaylistContainer p').addClass('song');
+            $('#finalPlaylistContainer p:first').addClass('active');
+            $('footer').removeClass('hidden');
+            let current = 0;
+            runPlaylist(trackTitles, track, current);
+            chooseSong(current);
+        }else{
+            alert("Please select at least 1 song!");
+        }
+        
     })
 }
 
 function chooseSong(trackTitles, current){
-    $('#finalPlaylistContainer').on('click', 'button', function(){
+    $('#finalPlaylistContainer').on('click', '.play', function(){
         let audio = document.getElementById('playlistAudio');
         let chosenSongTitle = $(this).next().clone();
         let chosenSongTrack = $(this).next().next().clone();
@@ -57,7 +62,6 @@ function runPlaylist(trackTitles, track, current){
     console.log("Initial Current "+current);
     let audio = document.getElementById('playlistAudio');
     audio.volume =.10;
-   //audio.play();
     audio.addEventListener('ended', function(event){
         current++;
         console.log("Ended Current "+current)
@@ -85,7 +89,16 @@ function runPlaylist(trackTitles, track, current){
 
 function returnToLandingPage(){
     $('#title').on('click', function(){
-        location.reload();
+        let check = confirm("This will remove your playlist and cannot be undone.")
+        if (check == true){
+            location.reload();
+        }
+    })
+    $('#restartButton').on('click', function(){
+        let check = confirm("This will remove your playlist and cannot be undone.")
+        if (check == true){
+            location.reload();
+        }
     })
 }
 
@@ -93,6 +106,7 @@ function removeSearchResults(){
     $('#results').on('click', '#clearSearch', function(){
         $('#songResults').remove();
         $('#results').addClass('hidden');
+        $('#playlistContainer').addClass('hidden');
     })
 }
 
