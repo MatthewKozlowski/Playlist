@@ -13,8 +13,9 @@ function finializedPlaylist(){
             let playlist = $('#playlist').find('p, source');
             $('#js-form').remove();
             $('#songsContainer').remove();
-            $('.container').append(`<h2 id="songTitle">Now Playing: </h2><audio id="playlistAudio" tabindex="0" controls></audio><ol id="finalPlaylistContainer"></ol>`);
-            $('#finalPlaylistContainer').append(playlist)
+            $('.container').append(`<h2 id="songTitle"></h2><audio id="playlistAudio" tabindex="0" controls></audio><ol id="finalPlaylistContainer"></ol>`);
+            $('#finalPlaylistContainer').append(playlist);
+            $('p').wrap('<li class="finalPlaylistSongs"></li>');
             let trackTitles = $('#finalPlaylistContainer').find('p').clone().toArray();
             let track = $('#finalPlaylistContainer').find('source').clone().toArray();
             $('#finalPlaylistContainer').find('p').before(`<button class="play" type="button">Play</button>`);
@@ -38,7 +39,7 @@ function chooseSong(trackTitles, current){
     $('#finalPlaylistContainer').on('click', '.play', function(){
         let audio = document.getElementById('playlistAudio');
         let chosenSongTitle = $(this).next().clone();
-        let chosenSongTrack = $(this).next().next().clone();
+        let chosenSongTrack = $(this).parent().next().clone();
         audio.pause();
         audio.load();
         console.log(chosenSongTitle);
@@ -75,7 +76,7 @@ function runPlaylist(trackTitles, track, current){
             audio.play();
             console.log(current + " Replay")
         }else{
-            $('.active').removeClass('active').next().next().next().addClass('active');
+            $('.active').removeClass('active').next().next().next().next().addClass('active');
             $('#playlistAudio').children().remove()
             $('#playlistAudio').append(track[current]);
             $('#songTitle').children().remove();

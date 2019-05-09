@@ -39,13 +39,32 @@ h2 {
 }
 
 #finalPlaylistContainer {
-    margin: auto;
     display: flex;
-    justify-content: center;
+    margin: auto;
     flex-direction: column;
+    justify-content: center;
     width: 400px;
+    border: black 4px solid;
+    list-style-type: lower-roman;
 }
 
 .active {
     color: darkred;
+}
+
+.finalPlaylistSongs {
+   display: inline-flex;
+   background-color: green;
+   border: solid black 4px;
+   padding-left: 0px;
+}
+
+.finalPlaylistSongs button {
+    margin-right: 5px;
+}
+
+source {
+    z-index: -999;
+    margin: auto;
+    text-align: center;
 }
