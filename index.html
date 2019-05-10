@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="style.css" type="text/css">
+    <link href="https://fonts.googleapis.com/css?family=Akronim|Gugi" rel="stylesheet"> 
     <title>Playlist Creation App</title>
     <script src="https://code.jquery.com/jquery-3.3.1.js" integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60=" crossorigin="anonymous"></script>
 </head>
@@ -12,13 +13,18 @@
     <div class="container">
     
         <form id="js-form">
-            <label for="search-term">Search for a track to add!</label>
-            <input type="text" name="search-term" id="js-search-term" value="Furr">
+            <section id="search-term-container">
+                <label for="search-term">Search for a Song!</label>
+                <input type="text" name="search-term" id="js-search-term" onfocus="this.value=''" value="Furr"> 
+            </section>
+            <!--
+            <section id="max-results-container">
+                <label for="max-results">Number of Results</label>
+                <input type="number" name="max-results" id="js-max-results" value="10">
+            </section>
+            -->
 
-            <label for="max-results">Max Number of Songs to Find</label>
-            <input type="number" name="max-results" id="js-max-results" value="10">
-
-            <input type="submit" value="Submit">
+            <input id="searchButton" type="submit" value="Search">
         </form>
         <div id="songsContainer">
            

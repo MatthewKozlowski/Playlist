@@ -2,7 +2,7 @@
 
 const clientId = '8f49b38a'
 const searchUrl = 'https://api.jamendo.com/v3.0/tracks/'
-let maxResults = 10;
+let maxResults = 50;
 
 
 
@@ -192,7 +192,7 @@ function watchForm(){
     $('#js-form').submit(function(event){
         event.preventDefault();
         let searchTerm = $('#js-search-term').val();
-        maxResults = $('#js-max-results').val();
+       // maxResults = $('#js-max-results').val();
         console.log(searchTerm+" "+maxResults);
         findSongs(searchTerm, maxResults);
     })
