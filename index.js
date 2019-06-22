@@ -144,7 +144,7 @@ function displayResults(responseJson){
             <audio controls>
             <source src="${responseJson.results[i].audio}" type="audio/mpeg">
             </audio controls>
-            </span>
+            </span><br>
             <button type="button" class="addToPlaylist">Add to Playlist</button>
             </li>
             `)
@@ -158,7 +158,7 @@ function displayResults(responseJson){
             <audio controls>
             <source src="${responseJson.results[i].audio}" type="audio/mpeg">
             </audio controls>
-            </span>
+            </span><br>
             <button type="button" class="addToPlaylist">Add to Playlist</button>
             </li>
             `)
