@@ -3,7 +3,7 @@
 const clientId = '8f49b38a'
 const searchUrl = 'https://api.jamendo.com/v3.0/tracks/'
 let maxResults = 50;
-
+let current = 0;
 
 
 function finializedPlaylist(){
@@ -25,9 +25,9 @@ function finializedPlaylist(){
             $('#finalPlaylistContainer p').addClass('song');
             $('#finalPlaylistContainer p:first').addClass('active');
             $('footer').removeClass('hidden');
-            let current = 0;
+            
             runPlaylist(trackTitles, track, current);
-            chooseSong(current);
+            chooseSong(trackTitles, track, current);
         }else{
             alert("Please select at least 1 song!");
         }
@@ -35,37 +35,46 @@ function finializedPlaylist(){
     })
 }
 
-function chooseSong(trackTitles, current){
+function chooseSong(){
     $('#finalPlaylistContainer').on('click', '.play', function(){
         let audio = document.getElementById('playlistAudio');
         let chosenSongTitle = $(this).next().clone();
         let chosenSongTrack = $(this).parent().next().clone();
-        audio.pause();
-        audio.load();
-        console.log(chosenSongTitle);
-        console.log(chosenSongTrack);
         $('.active').removeClass('active');
         $(this).next().addClass('active');
         $('#songTitle').children().replaceWith(chosenSongTitle);
         $('#playlistAudio').children().replaceWith(chosenSongTrack);
+        audio.pause();
+        audio.load();
         audio.play();
-        let songArray = $('#finalPlaylistContainer').find('p').toArray();
-        current = songArray.indexOf(chosenSongTitle);
-        console.log("Choose song "+current);
-        console.log("Array example "+trackTitles[1]);
-        audio.addEventListener('ended', function(event){
-            runPlaylist(current);
-        })    
+        let array = [];
+        let elements = document.body.getElementsByTagName('p');
+        for(let i = 0; i < elements.length; i++) {
+            let currentNum = elements[i];
+            if(currentNum.children.length === 0 && currentNum.textContent.replace(/ |\n/g,'') !== '') {
+                // Check the element has no children && that it is not empty
+                array.push(currentNum.textContent);
+            }
+        } 
+        let songIndex = array.slice(1,array.length);
+        console.log(songIndex);
+        let songTitleIndex = chosenSongTitle.text();
+        console.log(songTitleIndex);
+        function findSongIndex(element){
+            return element == songTitleIndex;
+        }
+        console.log(songIndex.findIndex(findSongIndex));
+        current = songIndex.findIndex(findSongIndex);   
     })
 }
 
-function runPlaylist(trackTitles, track, current){
+function runPlaylist(trackTitles, track){
     console.log("Initial Current "+current);
     let audio = document.getElementById('playlistAudio');
     audio.volume =.10;
     audio.addEventListener('ended', function(event){
         current++;
-        console.log("Ended Current "+current)
+        console.log("Current "+current)
         if(current === track.length){
             current = 0;
             $('.active').removeClass('active');
@@ -76,14 +85,13 @@ function runPlaylist(trackTitles, track, current){
             audio.play();
             console.log(current + " Replay")
         }else{
-            $('.active').removeClass('active').next().next().next().next().addClass('active');
+            $('.active').removeClass('active').parent().next().next().children("p.song").addClass('active');
             $('#playlistAudio').children().remove()
             $('#playlistAudio').append(track[current]);
             $('#songTitle').children().remove();
             $('#songTitle').append(trackTitles[current]);
             audio.load();
             audio.play();
-            console.log("Else current "+current)
         }
     })
 }
