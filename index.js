@@ -115,7 +115,6 @@ function removeSearchResults(){
     $('#results').on('click', '#clearSearch', function(){
         $('#songResults').remove();
         $('#results').addClass('hidden');
-        $('#playlistContainer').addClass('hidden');
     })
 }
 
