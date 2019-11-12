@@ -5,7 +5,6 @@ const searchUrl = 'https://api.jamendo.com/v3.0/tracks/'
 let maxResults = 50;
 let current = 0;
 
-
 function finializedPlaylist(){
     $('#finalPlaylist').on('click', function(){
         let count = $('#playlist').children().length;
