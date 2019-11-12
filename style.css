@@ -5,6 +5,8 @@
 body {
     background-color: #fffccf;
     font-family: 'Gugi', cursive;
+    height: 100vh;
+    margin: 0;
 }
 
 #title {
@@ -17,9 +19,13 @@ body {
     margin-top: 0px;
 }
 
+.container {
+    height: calc(100vh - 500px);
+}
+
 .description {
     text-align: center;
-    margin-bottom: 80px;
+    margin-bottom: 60px;
 }
 
 h2 {
@@ -75,12 +81,13 @@ h2 {
     flex-direction: row;
     justify-content: center;
     margin-top: 20px;
+    height: calc(100vh - 500px);
 }
 
 #results {
     width: 500px;
     text-align: left;
-    height: 100vh;
+    height: calc(100vh - 350px);
     overflow-y: scroll;
 }
 
@@ -95,6 +102,8 @@ h2 {
     width: 500px;
     text-align: left;
     float: right;
+    height: calc(100vh - 350px);
+    overflow-y: scroll;
 }
 
 #clearSearch {
@@ -171,10 +180,13 @@ h2 {
     display: flex;
     margin: auto;
     margin-top: 50px;
+    margin-bottom: 62.5;
     flex-direction: column;
-    justify-content: center;
+    height: calc(100vh - 650px);
     width: 1000px;
+    overflow-y: scroll;
     font-size: 30px;
+    list-style-type: none;
 }
 
 .active {
@@ -209,6 +221,10 @@ h2 {
 footer {
     text-align: center;
     margin-top: 50px;
+    bottom: 0;
+    position: fixed;
+    left: 0;
+    width: 100%;
 }
 
 footer button {
@@ -223,4 +239,9 @@ footer button {
 footer button:hover {
    background-color: #ffd4aa;
    cursor: pointer;
+}
+
+::-webkit-scrollbar {
+    width: 0px;  /* Remove scrollbar space */
+    background: transparent;  /* Optional: just make scrollbar invisible */
 }
